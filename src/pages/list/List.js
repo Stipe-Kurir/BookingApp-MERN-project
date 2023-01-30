@@ -5,6 +5,7 @@ import Navbar from '../../components/navbar/Navbar';
 import "./list.css"
 import {format} from 'date-fns';
 import { DateRange } from 'react-date-range';
+import SearchItem from '../../components/searchItem/SearchItem';
 
 const List = () => {
 
@@ -39,8 +40,53 @@ const List = () => {
              ranges={date}
              />)}
             </div>
+            <div className="lsItem">
+              <label>Options</label>
+              <div className="lsOptions">
+              <div className="lsOptionItem">
+                <span className="lsOptionText">
+                Min price<small> per night</small>
+                </span>
+                <input type="number" className="lsOptioninput"/>
+              </div>
+              <div className="lsOptionItem">
+                <span className="lsOptionText">
+                  Max price<small> per night</small>
+                </span>
+                <input type="number" className="lsOptioninput"/>
+              </div>
+              <div className="lsOptionItem">
+                <span className="lsOptionText">
+                 Adult
+                </span>
+                <input type="number" min={1} className="lsOptioninput" placeholder={options.adult}/>
+              </div>
+              <div className="lsOptionItem">
+                <span className="lsOptionText">
+                  Children
+                </span>
+                <input type="number" min={0} className="lsOptioninput" placeholder={options.children}/>
+              </div>
+              <div className="lsOptionItem">
+                <span className="lsOptionText">
+                  Room
+                </span>
+                <input type="number" min={1} className="lsOptioninput" placeholder={options.room}/>
+              </div>
+              </div>
+            </div>
+            <button>Search</button>
           </div>
-          <div className="listResult"></div>
+          <div className="listResult">
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+          </div>
         </div>
 
       </div>
