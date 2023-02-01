@@ -35,6 +35,7 @@ const Hotel = () => {
       <div className="hotelContainer">
         <div className="hotelWrapper">
           <h1 className="hotelTitle">Grand Hotel</h1>
+          <button className="bookNow">Reserve or Book Now!</button>
           <div className="hotelAddress">
             <FontAwesomeIcon icon={faLocationDot}/>
             <span>Elton St 125 New york</span>
