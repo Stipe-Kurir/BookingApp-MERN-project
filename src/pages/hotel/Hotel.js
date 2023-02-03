@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./hotel.css";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Footer from "../../components/footer/Footer";
 import MailList from "../../components/mailList/MailList";
 
 const Hotel = () => {
+
+  const [slideNumber,setSlideNumber]=useState(null);
+  const [open,setOpen]=useState(null);
+
+  const handleOpen =(i)=>{
+    setSlideNumber(i);
+    setOpen(true);
+  }
+
 
   const photos = [
     {
@@ -35,6 +44,16 @@ const Hotel = () => {
       <Navbar/>
       <Header type="list"/>
       <div className="hotelContainer">
+       {open && (
+        <div className="slider">
+          <FontAwesomeIcon icon={faCircleXmark}/>
+          <FontAwesomeIcon icon={faCircleArrowLeft}/>
+            <div className="sliderWrapper">
+              <img src={photos[slideNumber].src} alt="" className="sliderImg" />
+            </div>
+          <FontAwesomeIcon icon={faCircleArrowRight}/>
+        </div>
+       )}
         <div className="hotelWrapper">
           <h1 className="hotelTitle">Grand Hotel</h1>
           <button className="bookNow">Reserve or Book Now!</button>
@@ -49,9 +68,9 @@ const Hotel = () => {
             Book a stay over $114 at this property and get a free airport taxi
           </span>
           <div className="hotelImages">
-            {photos.map(photo=>(
+            {photos.map((photo,i)=>(
               <div className="hotelImgWrapper">
-                <img src={photo.src} alt="" className="hotelImg" />
+                <img onClick={()=>handleOpen(i)} src={photo.src} alt="" className="hotelImg" />
               </div>
             ))}
           </div>
