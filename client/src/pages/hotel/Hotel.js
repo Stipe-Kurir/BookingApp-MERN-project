@@ -7,8 +7,10 @@ import { faCircleArrowLeft, faCircleArrowRight, faCircleXmark, faLocationDot } f
 import Footer from "../../components/footer/Footer";
 import MailList from "../../components/mailList/MailList";
 import useFetch from "../../hooks/useFetch";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SearchContext } from '../../context/searchContext';
+import { AuthContext } from '../../context/authContext';
+import Reserve from '../../components/reserve/Reserve';
 
 const Hotel = () => {
 
@@ -16,9 +18,12 @@ const Hotel = () => {
   const id=location.pathname.split("/")[2];
   const {data, loading, error}=useFetch(`/hotels/find/${id}`);
   const [slideNumber,setSlideNumber]=useState(null);
-  const [open,setOpen]=useState(null);
-
+  const [open,setOpen]=useState(false);
   const {dates,options}=useContext(SearchContext);
+  const navigate=useNavigate();
+  const [openModal,setOpenModal]=useState(false);
+  const {user} = useContext(AuthContext);
+
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -44,6 +49,19 @@ const days=dayDifference(dates[0].endDate,dates[0].startDate);
 
     setSlideNumber(newSlideNumber);
   }
+
+
+  const handleClick =()=>{
+      if(user)
+      { 
+        setOpenModal(true);
+
+      }else{
+        navigate("/login");
+      }
+  }
+
+
 
   return (
     <div>
@@ -100,13 +118,15 @@ const days=dayDifference(dates[0].endDate,dates[0].startDate);
               <h2>
                 <b>${days* data.cheapestPrice * options.room}</b> ({days} nights)
               </h2>
-              <button>Reserve or Book Now!</button>
+              <button onClick={handleClick}>Reserve or Book Now!</button>
             </div>
           </div>
         </div> 
         <MailList/>
         <Footer/>
-      </div>)}
+      </div>
+      )}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId={id}/>}
     </div>
   )
 }
