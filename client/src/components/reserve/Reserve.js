@@ -7,7 +7,17 @@ import useFetch from "../../hooks/useFetch";
 
 const Reserve = ({setOpen,hotelId}) => {
 
+    const [selectedRooms,setSelectedRooms]=useState([]);
     const {data,loading,error}=useFetch(`/hotels/room/${hotelId}`);
+    const handleSelect =(e)=>{
+        const selected=e.target.checked;
+        const value=e.target.value;
+
+        setSelectedRooms(selected 
+            ? [...selectedRooms,value]: 
+            selectedRooms.filter((item)=> item !==value)
+            )
+    }
 
     return (
     <div className="reserve">
@@ -18,13 +28,24 @@ const Reserve = ({setOpen,hotelId}) => {
              onClick={()=>setOpen(false)}
              />
              <span>Select your rooms:</span>
-             {data.map(item=>(
-                <div className="rItem">
+             {data.map((item)=>(
+                <div className="rItem" key={item._id}>
                     <div className="rItemInfo">
                         <div className="rTitle">{item.title}</div>
                         <div className="rDesc">{item.desc}</div>
-                        <div className="rMax">Max people: <b></b></div>
-
+                        <div className="rMax">Max people: <b>{item.maxPeople}</b></div>
+                        <div className="rPrice">{item.price}</div>
+                    </div>
+                        <div className="rSelectRooms">
+                        {item.roomNumbers.map(roomNumber=>(
+                             <div className="room">
+                            <label>{roomNumber.number}</label>
+                            <input 
+                            type="checkbox" 
+                            value={roomNumber._id} 
+                            onChange={handleSelect}/>
+                            </div>
+                        ))}
                     </div>
                 </div>
              ))}
