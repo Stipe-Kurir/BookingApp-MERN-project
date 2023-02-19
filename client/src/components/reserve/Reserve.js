@@ -1,14 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./reserve.css";
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import useFetch from "../../hooks/useFetch";
+import {SearchContext} from "../../context/searchContext";
 
 
 const Reserve = ({setOpen,hotelId}) => {
 
     const [selectedRooms,setSelectedRooms]=useState([]);
     const {data,loading,error}=useFetch(`/hotels/room/${hotelId}`);
+    const {dates}=useContext(SearchContext);
+
     const handleSelect =(e)=>{
         const selected=e.target.checked;
         const value=e.target.value;
@@ -17,6 +20,27 @@ const Reserve = ({setOpen,hotelId}) => {
             ? [...selectedRooms,value]: 
             selectedRooms.filter((item)=> item !==value)
             )
+    }
+
+    const getDatesInRange=(startDate,endDate)=>{
+        const start=new Date(startDate);
+        const end=new Date(endDate);
+        const date= new Date(start.getTime());
+        const dates=[];
+
+        while(date <= end)
+        {
+            dates.push(new Date(date).getTime());
+            date.setDate(date.getDate()+1);
+        }
+        return dates;
+    }
+
+  const alldates=getDatesInRange(dates[0].startDate,dates[0].endDate);
+
+    const handleClick =()=>{
+
+
     }
 
     return (
@@ -49,6 +73,7 @@ const Reserve = ({setOpen,hotelId}) => {
                     </div>
                 </div>
              ))}
+             <button onClick={handleClick} className="rButton">Reserve Now!</button>
 
         </div>
     </div>
