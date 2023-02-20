@@ -4,6 +4,8 @@ import "./reserve.css";
 import { faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import useFetch from "../../hooks/useFetch";
 import {SearchContext} from "../../context/searchContext";
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 
 const Reserve = ({setOpen,hotelId}) => {
@@ -35,13 +37,37 @@ const Reserve = ({setOpen,hotelId}) => {
         }
         return dates;
     }
+console.log(dates);
+
 
   const alldates=getDatesInRange(dates[0].startDate,dates[0].endDate);
 
-    const handleClick =()=>{
+  const isAvailable=(roomNumber)=>{
+    const isFound=roomNumber.unavailableDates.some(date=>
+        alldates.includes(new Date(date).getTime())
+        )
+        return !isFound;
+  }
+  
+  const navigate=useNavigate();
 
+
+  const handleClick= async ()=>{
+    
+    try{
+        await Promise.all(
+            selectedRooms.map(roomId=>{
+            const res=axios.put(`/rooms/availability/${roomId}`,
+            {dates:alldates,});
+            return res.data;
+        })
+        );
+        setOpen(false);
+        navigate("/");
+    }catch(err){
 
     }
+   }
 
     return (
     <div className="reserve">
@@ -67,7 +93,9 @@ const Reserve = ({setOpen,hotelId}) => {
                             <input 
                             type="checkbox" 
                             value={roomNumber._id} 
-                            onChange={handleSelect}/>
+                            onChange={handleSelect}
+                            disabled={!isAvailable(roomNumber)}/>
+                        
                             </div>
                         ))}
                     </div>
