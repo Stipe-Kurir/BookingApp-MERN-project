@@ -3,12 +3,17 @@ import {Link} from "react-router-dom";
 import "./navbar.css"
 import { AuthContext } from '../../context/authContext';
 import { useContext } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
+  const navigate=useNavigate();
   const {user}=useContext(AuthContext);
+  
+  const handleLogin=()=>{
+    navigate("/login")
 
+  }
   return (
     <div className="navbar">
         <div className="navContainer">
@@ -18,7 +23,7 @@ const Navbar = () => {
             {user ? user.details.username : (
               <div className="navItems">
                 <button className="navButton">Register</button>
-                <button className="navButton">Log in</button>
+                <button onClick={handleLogin} className="navButton">Log in</button>
             </div>
               )}
         </div>
