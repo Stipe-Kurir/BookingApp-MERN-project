@@ -84,7 +84,7 @@ const days=dayDifference(dates[0].endDate,dates[0].startDate);
        )}
         <div className="hotelWrapper">
           <h1 className="hotelTitle">{data.name}</h1>
-          <button className="bookNow">Reserve or Book Now!</button>
+          
           <div className="hotelAddress">
             <FontAwesomeIcon icon={faLocationDot}/>
             <span>{data.address}</span>
@@ -112,8 +112,7 @@ const days=dayDifference(dates[0].endDate,dates[0].startDate);
             <div className="hotelDetailsPrice">
             <h1>Perfect for a {days}-night stay!</h1>
               <span>
-                Located in the real heart of Krakow, this property has an
-                excellent location score of 9.8!
+                {data.desc}
               </span>
               <h2>
                 <b>${days* data.cheapestPrice * options.room}</b> ({days} nights)
