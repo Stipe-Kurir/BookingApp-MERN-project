@@ -10,6 +10,12 @@
     flex-direction: column;
     gap:10px;
 }
+form{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
 .rInput{
 padding:10px;
 height:30px;
@@ -27,4 +33,13 @@ height:30px;
 .rButton:disabled{
     background-color: #0071c28c;
     cursor: not-allowed;
+  }
+  
+  .success{
+    color:rgb(20, 193, 20);
+    font-weight: bold;
+  }
+  .failure{
+    color:red;
+    font-weight: bold;
   }

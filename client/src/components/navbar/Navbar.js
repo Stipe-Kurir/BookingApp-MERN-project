@@ -15,6 +15,10 @@ const Navbar = () => {
     navigate("/login")
     
   }
+  const handleRegister=()=>{
+    navigate("/register")
+    
+  }
 
 
   const handleLogout=()=>{
@@ -35,7 +39,7 @@ const Navbar = () => {
               <span className="username">{user.username}</span>
           </div>) : (
               <div className="navItems">
-              <button className="navButton">Register</button>
+              <button className="navButton" onClick={handleRegister} >Register</button>
               <button onClick={handleLogin} className="navButton">Log in</button>
           </div>
               )}
